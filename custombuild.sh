@@ -1,0 +1,2 @@
+#!/bin/sh
+ng build angular-elements --prod --output-hashing=none && cat ./dist/angular-elements/runtime-es5.js dist/angular-elements/polyfills-es5.js dist/angular-elements/scripts.js dist/angular-elements/main-es5.js > preview/angularapp.js && cp preview/angularapp.js public/preview/

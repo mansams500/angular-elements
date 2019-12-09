@@ -1,0 +1,490 @@
+{
+    "componentName": "@kyma/alert-data",
+    "readme": {
+      "Introduction": {
+        "description": "This package provides a alert data adapter package for an application. The package provides the following pieces:\n \n * A data adapter for requesting and receiving alert data\n * Request includes handle alert\n * Adapter is capable of handling all alert \n * A default alert object builder which convert received data into KymaAlert object\n \n KymaException data is information about an alert that occurred in various other component with alert code , time of occurrence, severity, source of occurrence .\n \n"
+      },
+      "Use": {
+        "description": "To use this package, install it as a dependency of your project: \n ```\n npm install @kyma/alert-data\n ```\n \n In order to use this data adapter, it must be instantiated and added to the\n collection of data adapters (see the API dsocumentation for the data adapter\n constructor for more details):\n \n ```typescript\n import { AlertDataAdapter,\n          actionUpdateAlert} from '@kyma/alert-data'\n     . . .\n \n const adapter = new AlertDataAdapter(serviceHostAddress, store.dispatch)\n dataAdapters.addAdapter(adapter)\n ```\n \n"
+      },
+      "Package Development": {
+        "description": "Issue the following command to initialize the project: \n ```\n npm install\n ```\n \n This will load the main and development dependencies.\n \n The `package.json` file provides a few scripts that are helpful during development.\n These scripts are:\n \n * `clean` - removes build by-products, such as the dist directory\n * `build` - build the module distribution\n * `lint` - run a lint analysis on the TypeScript code\n * `test` - run Typecript code unit tests\n \n The npm `publish` command is used to publish the package to the npm\n repository.\n \n \n \n"
+      }
+    },
+    "files": [
+      {
+        "name": "AlertDataAdapter.ts",
+        "classes": [
+          {
+            "name": "AlertDataAdapter",
+            "comment": {
+              "text": "This class extends DataAdapter and handles error data."
+            },
+            "constructors": [
+              {
+                "name": "constructor",
+                "returnType": "AlertDataAdapter",
+                "comment": {
+                  "text": "Create a new instance of this data adapter."
+                },
+                "parameters": [
+                  {
+                    "name": "serviceHost",
+                    "dataType": "string",
+                    "comment": {
+                      "text": "The address of the service used by this data adapter."
+                    }
+                  },
+                  {
+                    "name": "dispatchTo",
+                    "dataType": "Function",
+                    "comment": {
+                      "text": "The callback used to dispatch actions to the application."
+                    }
+                  },
+                  {
+                    "name": "builder",
+                    "dataType": "Function",
+                    "comment": {
+                      "text": "The function to use to generate action payloads. A default\nbuilder is used to validate and generate payloads if no builder is specified.\n"
+                    }
+                  }
+                ]
+              }
+            ],
+            "methods": [
+              {
+                "name": "actionDispatch",
+                "returnType": "void",
+                "parameters": [
+                  {
+                    "name": "action",
+                    "dataType": "any"
+                  }
+                ]
+              },
+              {
+                "name": "formDuration",
+                "returnType": "string",
+                "parameters": [
+                  {
+                    "name": "start",
+                    "dataType": "Date"
+                  },
+                  {
+                    "name": "end",
+                    "dataType": "Date"
+                  }
+                ]
+              },
+              {
+                "name": "formFilter",
+                "returnType": "ResourceFilter",
+                "parameters": [
+                  {
+                    "name": "filters",
+                    "dataType": "FilterInputs"
+                  }
+                ]
+              },
+              {
+                "name": "formKey",
+                "returnType": "string",
+                "parameters": [
+                  {
+                    "name": "args",
+                    "dataType": "array"
+                  }
+                ]
+              },
+              {
+                "name": "formQuery",
+                "returnType": "string",
+                "parameters": [
+                  {
+                    "name": "start",
+                    "dataType": "Date"
+                  },
+                  {
+                    "name": "end",
+                    "dataType": "Date"
+                  },
+                  {
+                    "name": "filters",
+                    "dataType": "FilterInputs"
+                  }
+                ]
+              },
+              {
+                "name": "getDataCollector",
+                "returnType": "DataAdapterCollection"
+              },
+              {
+                "name": "getResourceItems",
+                "returnType": "string",
+                "parameters": [
+                  {
+                    "name": "itemsArray",
+                    "dataType": "any"
+                  },
+                  {
+                    "name": "items",
+                    "dataType": "any"
+                  }
+                ]
+              },
+              {
+                "name": "getServiceHost",
+                "returnType": "string"
+              },
+              {
+                "name": "handleAlert",
+                "returnType": "void",
+                "comment": {
+                  "text": "Handle alert data."
+                },
+                "parameters": [
+                  {
+                    "name": "request",
+                    "dataType": "ProcessReceivedAlertRequest",
+                    "comment": {
+                      "text": "alert data request.\n"
+                    }
+                  }
+                ]
+              },
+              {
+                "name": "requestDispatch",
+                "returnType": "Promise",
+                "comment": {
+                  "returns": "A promise if an asynchronous operation was begun, undefined otherwise.\n",
+                  "text": "Called by the data adapter service when a new request for processing\nis received. Note that the request might not be one handled by this\ndata adapter; in this case the request is ignored."
+                },
+                "parameters": [
+                  {
+                    "name": "request",
+                    "dataType": "ErrorRequests",
+                    "comment": {
+                      "text": "An incoming request; might not be relevant to this adapter,\nin which case it is ignored."
+                    }
+                  }
+                ]
+              },
+              {
+                "name": "setDataCollector",
+                "returnType": "void",
+                "parameters": [
+                  {
+                    "name": "collector",
+                    "dataType": "DataAdapterCollection"
+                  }
+                ]
+              },
+              {
+                "name": "setServiceHost",
+                "returnType": "void",
+                "parameters": [
+                  {
+                    "name": "serviceHost",
+                    "dataType": "string"
+                  }
+                ]
+              }
+            ],
+            "properties": [
+              {
+                "name": "payloadBuilder",
+                "dataType": "AlertPayloadBuilderFunction",
+                "comment": {
+                  "text": "The function called to build alert action payloads."
+                }
+              },
+              {
+                "name": "PATIENTS_API",
+                "dataType": "string"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "spec.ts",
+        "classes": [
+          {
+            "name": "MockDataAdapterService",
+            "comment": {
+              "text": "A mock data adapter service used to spy on data adapter calls."
+            },
+            "constructors": [
+              {
+                "name": "constructor",
+                "returnType": "MockDataAdapterService",
+                "parameters": [
+                  {
+                    "name": "spy",
+                    "dataType": "sinon.SinonSpy"
+                  }
+                ]
+              }
+            ],
+            "methods": [
+              {
+                "name": "addAdapter",
+                "returnType": "void",
+                "parameters": [
+                  {
+                    "name": "adapter",
+                    "dataType": "DataAdapter"
+                  }
+                ]
+              },
+              {
+                "name": "addStreamingWatch",
+                "returnType": "Promise",
+                "parameters": [
+                  {
+                    "name": "entityId",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "uri",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "type",
+                    "dataType": "FilterItem.ResourceTypeEnum"
+                  },
+                  {
+                    "name": "itemIdentifiers",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "items",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "user",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "passwd",
+                    "dataType": "string"
+                  }
+                ]
+              },
+              {
+                "name": "dispatchToAdapters",
+                "returnType": "Promise",
+                "parameters": [
+                  {
+                    "name": "request",
+                    "dataType": "any"
+                  }
+                ]
+              },
+              {
+                "name": "getAdapterActiveState",
+                "returnType": "boolean",
+                "parameters": [
+                  {
+                    "name": "adapter",
+                    "dataType": "DataAdapter"
+                  }
+                ]
+              },
+              {
+                "name": "getConfig",
+                "returnType": "Promise",
+                "parameters": [
+                  {
+                    "name": "uri",
+                    "dataType": "string"
+                  }
+                ]
+              },
+              {
+                "name": "handleAlert",
+                "returnType": "void",
+                "parameters": [
+                  {
+                    "name": "sourceValue",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "message",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "eCode",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "sv",
+                    "dataType": "string"
+                  }
+                ]
+              },
+              {
+                "name": "makeRequest",
+                "returnType": "Promise",
+                "parameters": [
+                  {
+                    "name": "method",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "uri",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "payload",
+                    "dataType": "any"
+                  },
+                  {
+                    "name": "type",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "user",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "passwd",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "xhr",
+                    "dataType": "XMLHttpRequest"
+                  }
+                ]
+              },
+              {
+                "name": "removeAdapter",
+                "returnType": "boolean",
+                "parameters": [
+                  {
+                    "name": "adapter",
+                    "dataType": "DataAdapter"
+                  }
+                ]
+              },
+              {
+                "name": "removeStreamingWatch",
+                "returnType": "Promise",
+                "parameters": [
+                  {
+                    "name": "entityId",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "uri",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "type",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "user",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "passwd",
+                    "dataType": "string"
+                  }
+                ]
+              },
+              {
+                "name": "setAdapterActiveState",
+                "returnType": "void",
+                "parameters": [
+                  {
+                    "name": "adapter",
+                    "dataType": "DataAdapter"
+                  },
+                  {
+                    "name": "state",
+                    "dataType": "boolean"
+                  }
+                ]
+              },
+              {
+                "name": "setAuthHeader",
+                "returnType": "void",
+                "parameters": [
+                  {
+                    "name": "header",
+                    "dataType": "string"
+                  },
+                  {
+                    "name": "value",
+                    "dataType": "string"
+                  }
+                ]
+              }
+            ],
+            "properties": [
+              {
+                "name": "callSpy",
+                "dataType": "sinon.SinonSpy"
+              },
+              {
+                "name": "WATCHES_PER_CHANNEL",
+                "dataType": "number"
+              }
+            ]
+          }
+        ],
+        "variables": [
+          {
+            "name": "SERVICE_HOST_ADDR",
+            "dataType": "stringLiteral"
+          },
+          {
+            "name": "global",
+            "dataType": "any"
+          }
+        ],
+        "functions": [
+          {
+            "name": "EMPTY_FUNC",
+            "returnType": "void"
+          }
+        ]
+      },
+      {
+        "name": "AlertRequests.ts",
+        "variables": [
+          {
+            "name": "ALERT_RESP",
+            "dataType": "stringLiteral",
+            "comment": {
+              "text": "Type for receipt of alert update data"
+            }
+          },
+          {
+            "name": "GET_ALERTS",
+            "dataType": "stringLiteral",
+            "comment": {
+              "text": "The request used to get alert data."
+            }
+          }
+        ],
+        "functions": [
+          {
+            "name": "requestGetAlert",
+            "returnType": "Function",
+            "comment": {
+              "text": "Create a request to get alert data."
+            }
+          }
+        ]
+      },
+      {
+        "name": "spec.ts"
+      },
+      {
+        "name": "index.ts"
+      }
+    ]
+  }
